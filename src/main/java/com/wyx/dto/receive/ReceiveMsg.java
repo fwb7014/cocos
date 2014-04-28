@@ -4,6 +4,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("xml")
 public class ReceiveMsg {
+	@XStreamAlias("URL")
+	private String url;
 	@XStreamAlias("ToUserName")
 	private String toUserName;
 	@XStreamAlias("FromUserName")
@@ -16,6 +18,14 @@ public class ReceiveMsg {
 	private String content;
 	@XStreamAlias("MsgId")
 	private String msgId;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getToUserName() {
 		return toUserName;

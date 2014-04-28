@@ -39,5 +39,6 @@ public class SimpleMsgHandler implements IMsgHandler {
 	public void handleGenMsg(String receiveMsg) {
 		ReceiveMsg msg = (ReceiveMsg) genMsgStream.fromXML(receiveMsg);
 		logger.info("解析得到的实体"+ToStringBuilder.reflectionToString(msg));
+		logger.info("消息的内容"+msg.getContent());
 	}
 }
