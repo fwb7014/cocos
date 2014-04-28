@@ -31,12 +31,21 @@ public class FirstStep {
 
 		String[] str = { timestamp, nonce, WebProperties.token };
 		Arrays.sort(str);
-		if (checkSignature(str.toString(),signature)) {
+		StringBuffer bf = new StringBuffer();
+		for(String temp:str){
+			bf.append(temp);
+		}
+		if (checkSignature(bf.toString(),signature)) {
 			System.out.println("通过返回"+echostr);
 			return echostr;
 		}
 		return "";
 	}
+	
+	public static void main(String[] args) {
+		new FirstStep().ktWinXin("123","abc","ddd","haha");
+	}
+	
 
 	/**
 	 * 检验加密是否正确
@@ -46,8 +55,8 @@ public class FirstStep {
 	 */
 	private boolean checkSignature(String sourceParam, String signature) {
 		logger.info("开始进行加密检验");
-		String securityStr = SecurityUtil.SHA1(sourceParam); 
 		logger.info("原文" +sourceParam);
+		String securityStr = SecurityUtil.SHA1(sourceParam); 
 		logger.info("自己计算的密文" +securityStr);
 		logger.info("接收的密文" +signature);
 		return securityStr.equals(signature);
