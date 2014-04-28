@@ -23,7 +23,7 @@
 
 	<!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制 -->
 	<logger name="org.springframework" additivity="false">
-		<level value="info" />
+		<level value="debug" />
 		<appender-ref ref="log_console" />
 	</logger>
 	
@@ -35,7 +35,7 @@
 	
 	<!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制 -->
 	<logger name="java.sql" additivity="false">
-		<level value="info" />
+		<level value="debug" />
 		<appender-ref ref="log_console" />
 	</logger>
 
