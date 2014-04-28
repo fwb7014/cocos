@@ -141,6 +141,12 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>fanwb</finalName>

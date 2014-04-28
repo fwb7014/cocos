@@ -2,6 +2,7 @@ package com.wyx.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,12 @@ public class ReceiveController {
 	@ResponseBody
 	@RequestMapping("receive.do")
 	public String ktWinXin(HttpServletRequest request) {
+		System.out.println("ToUserName"+request.getParameter("ToUserName"));
+		System.out.println(ToStringBuilder.reflectionToString(request));
 		return doFirstService(request);
 	}
+	
+	
 	
 	/**
 	 * 验证
