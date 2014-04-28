@@ -28,8 +28,8 @@ public class FirstStep {
 	@RequestMapping("kt.do")
 	public String ktWinXin(String signature, String timestamp, String nonce,
 			String echostr) {
-
-		String[] str = { timestamp, nonce, WebProperties.token };
+		logger.info("timestamp="+timestamp+",nonce="+nonce+",echostr="+echostr+",signature="+signature);
+		String[] str = {WebProperties.token,timestamp, nonce};
 		Arrays.sort(str);
 		StringBuffer bf = new StringBuffer();
 		for(String temp:str){
