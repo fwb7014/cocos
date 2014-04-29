@@ -18,6 +18,9 @@ public class ReceiveMsg {
 	private String content;
 	@XStreamAlias("MsgId")
 	private String msgId;
+	@XStreamAlias("event")
+	private String Event ;//subscribe(订阅)、unsubscribe(取消订阅)
+	
 
 	public String getUrl() {
 		return url;
@@ -73,6 +76,14 @@ public class ReceiveMsg {
 
 	public void setMsgId(String msgId) {
 		this.msgId = msgId;
+	}
+
+	public String getEvent() {
+		return Event;
+	}
+
+	public void setEvent(String event) {
+		Event = event;
 	}
 
 }

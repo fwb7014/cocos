@@ -60,7 +60,7 @@ public class MsgController {
 	 */
 	@ResponseBody
 	@RequestMapping("receive.do")
-	public void ktWinXin(HttpServletRequest request,Writer writer) {
+	public void ktWinXin(HttpServletRequest request, Writer writer) {
 		// doFirstService(request);
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -78,9 +78,10 @@ public class MsgController {
 					writer.write(handle.getSendMsg(receiveMsg));
 					writer.flush();
 					writer.close();
-					return ;
+					return;
 				}
 			}
+			logger.info("没有次消息的处理能力,消息的类型为" + receiveMsg.getMsgType());
 		} catch (Exception e) {
 			logger.error("异常", e);
 		}

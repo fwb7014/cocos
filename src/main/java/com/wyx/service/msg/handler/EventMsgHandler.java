@@ -8,18 +8,18 @@ import org.springframework.stereotype.Component;
 import com.wyx.dto.KeyMsg;
 import com.wyx.dto.receive.ReceiveMsg;
 @Component
-public class TextMsgHandler extends AbsMsgHandler {
-	private static final Logger logger = Logger.getLogger(TextMsgHandler.class);
+public class EventMsgHandler extends AbsMsgHandler {
+	private static final Logger logger = Logger.getLogger(EventMsgHandler.class);
 	
 	/**
-	 * 处理普通的消息
+	 * 处理事件消息
 	 * 
 	 * @param msg
 	 */
 
 	@Override
 	public String getMsgHandlerType() {
-		return "text";
+		return "event";
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class TextMsgHandler extends AbsMsgHandler {
 		// 现在开始处理消息
 		logger.info(ToStringBuilder.reflectionToString(this));
 		String responseMsg = getResponseStr(receiveMsg,sendMsg);
-		logger.info("回复内容"+responseMsg);
+		System.out.println("相应的信息"+responseMsg);
 		return responseMsg;
 		
 	}
