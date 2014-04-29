@@ -62,16 +62,18 @@ public class MsgController {
 	@RequestMapping("receive.do")
 	public void ktWinXin(HttpServletRequest request, Writer writer) {
 		// doFirstService(request);
+
+		StringBuilder sb = new StringBuilder();
+
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					request.getInputStream()));
-			StringBuilder sb = new StringBuilder();
 			String line;
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
 			}
-			logger.info("socket消息 " + sb.toString());
 
+			logger.info("socket消息 " + sb.toString());
 			ReceiveMsg receiveMsg = getReceiveMsg(sb.toString());
 			for (IMsgSender handle : handlers) {
 				if (handle.getMsgHandlerType().equals(receiveMsg.getMsgType())) {
@@ -81,9 +83,9 @@ public class MsgController {
 					return;
 				}
 			}
-			logger.info("没有次消息的处理能力,消息的类型为" + receiveMsg.getMsgType());
+			logger.info("没有次消息的处理能力,消息的类型为 " + receiveMsg.getMsgType());
 		} catch (Exception e) {
-			logger.error("异常", e);
+			logger.info("没有次消息的处理能力,消息为 " + sb.toString());
 		}
 	}
 
