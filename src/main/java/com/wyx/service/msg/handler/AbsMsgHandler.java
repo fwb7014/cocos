@@ -16,9 +16,6 @@ import com.wyx.service.support.KeyWorkUtil;
  */
 public abstract class AbsMsgHandler implements IMsgSender {
 	
-	public AbsMsgHandler(){
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-	}
 
 	private static final Logger logger = Logger.getLogger(TextMsgHandler.class);
 
@@ -26,14 +23,16 @@ public abstract class AbsMsgHandler implements IMsgSender {
 	private KeyWorkUtil keyWorkUtil;
 
 	// 公共
-	public void doMsgSender(ReceiveMsg msg) {
-		logger.info("收到消息" + ToStringBuilder.reflectionToString(msg));
-		KeyMsg keyMsg = keyWorkUtil.getKeyMsgByKeyWord(msg.getContent());
-		if (keyMsg != null) {
-			handleMsg(keyMsg);
+	@Override
+	public String getSendMsg(ReceiveMsg receiveMsg) {
+		logger.info("收到消息" + ToStringBuilder.reflectionToString(receiveMsg));
+		KeyMsg sendMsg = keyWorkUtil.getKeyMsgByKeyWord(receiveMsg.getContent());
+		if (sendMsg != null) {
+			return handleMsg(receiveMsg,sendMsg);
 		} else {
-			logger.info("ReceiveMsg=" + ToStringBuilder.reflectionToString(msg)
+			logger.info("ReceiveMsg=" + ToStringBuilder.reflectionToString(receiveMsg)
 					+ " 没有找到可用的关键字");
+			return null ;
 		}
 	}
 

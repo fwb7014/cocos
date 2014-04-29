@@ -17,15 +17,14 @@ public interface IMsgSender {
 	 * 接受消息
 	 * @param msg
 	 */
-	public void doMsgSender(ReceiveMsg msg);
+	public String getSendMsg(ReceiveMsg msg);
 	
 	/**
-	 * 处理消息 具体消息 具体处理
-	 * 
-	 * @param msg
+	 * 处理消息 具体消息 具体处
+	 * @param receiveMsg   接受的消息
+	 * @param sendMsg      待回复的消息
 	 */
-	@Async
-	public void handleMsg(KeyMsg keyMsg);
+	public String handleMsg(ReceiveMsg receiveMsg,KeyMsg sendMsg);
 	
 	/**
 	 * 获取消息处理器支持的类型

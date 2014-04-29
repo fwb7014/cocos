@@ -2,6 +2,7 @@ package com.wyx.web;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class MsgController {
 	 */
 	@ResponseBody
 	@RequestMapping("receive.do")
-	public String ktWinXin(HttpServletRequest request) {
+	public void ktWinXin(HttpServletRequest request,Writer writer) {
 		// doFirstService(request);
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -72,23 +73,16 @@ public class MsgController {
 			logger.info("socket消息 " + sb.toString());
 
 			ReceiveMsg receiveMsg = getReceiveMsg(sb.toString());
-			boolean findHandler = false;
 			for (IMsgSender handle : handlers) {
 				if (handle.getMsgHandlerType().equals(receiveMsg.getMsgType())) {
-					handle.doMsgSender(receiveMsg);
-					findHandler = true;
-					break;
+					writer.write(handle.getSendMsg(receiveMsg));
+					writer.flush();
+					writer.close();
+					return ;
 				}
 			}
-
-			if (!findHandler) { // 没有可以用的处理类
-				logger.error(" 没有找到可以处理消息的handler receiveMsg 类型为"
-						+ receiveMsg.getMsgType());
-			}
-			return "succ";
 		} catch (Exception e) {
 			logger.error("异常", e);
-			return null;
 		}
 	}
 
