@@ -22,7 +22,8 @@ public class ReceiveMsg {
 	private String event ;//subscribe(订阅)、unsubscribe(取消订阅)
 	@XStreamAlias("EventKey")
 	private String eventKey; //事件KEY值，qrscene_为前缀，后面为二维码的参数值
-	
+	@XStreamAlias("Ticket")
+	private String ticket; //二维码的ticket，可用来换取二维码图片
 	
 
 	public String getUrl() {
@@ -97,5 +98,13 @@ public class ReceiveMsg {
 		this.eventKey = eventKey;
 	}
 
+	public String getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(String ticket) {
+		this.ticket = ticket;
+	}
+	
 
 }

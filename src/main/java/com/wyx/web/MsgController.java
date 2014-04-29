@@ -85,7 +85,7 @@ public class MsgController {
 			}
 			logger.info("没有次消息的处理能力,消息的类型为 " + receiveMsg.getMsgType());
 		} catch (Exception e) {
-			logger.info("没有次消息的处理能力,消息为 " + sb.toString());
+			logger.error("没有次消息的处理能力,消息为 " + sb.toString(),e);
 		}
 	}
 
