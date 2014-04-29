@@ -27,6 +27,7 @@ public class TextMsgHandler extends AbsMsgHandler {
 		// 现在开始处理消息
 		logger.info(ToStringBuilder.reflectionToString(this));
 		String responseMsg = getResponseStr(receiveMsg,sendMsg);
+		System.out.println("相应的信息"+responseMsg);
 		return responseMsg;
 		
 	}
