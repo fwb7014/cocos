@@ -25,9 +25,8 @@ public class EventMsgHandler extends AbsMsgHandler {
 	@Override
 	public String handleMsg(ReceiveMsg receiveMsg,KeyMsg sendMsg) {
 		// 现在开始处理消息
-		logger.info(ToStringBuilder.reflectionToString(this));
 		String responseMsg = getResponseStr(receiveMsg,sendMsg);
-		System.out.println("相应的信息"+responseMsg);
+		logger.info("回复内容"+responseMsg);
 		return responseMsg;
 		
 	}
