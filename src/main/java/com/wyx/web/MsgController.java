@@ -1,7 +1,8 @@
-package com.wyx.web.receiver;
+package com.wyx.web;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.wyx.dto.receive.ReceiveMsg;
 import com.wyx.service.DoFirstService;
+import com.wyx.service.msg.IMsgSender;
 import com.wyx.service.msg.handler.AbsMsgHandler;
 
 /**
@@ -33,7 +35,7 @@ public class MsgController {
 	private DoFirstService doFirst;
 
 	@Autowired
-	private List<AbsMsgHandler> msgHandler;
+	private List<IMsgSender> handlers = new ArrayList<IMsgSender>();
 
 	/**
 	 * 消息的处理器
@@ -71,7 +73,7 @@ public class MsgController {
 
 			ReceiveMsg receiveMsg = getReceiveMsg(sb.toString());
 			boolean findHandler = false;
-			for (AbsMsgHandler handle : msgHandler) {
+			for (IMsgSender handle : handlers) {
 				if (handle.getMsgHandlerType().equals(receiveMsg.getMsgType())) {
 					handle.doMsgSender(receiveMsg);
 					findHandler = true;

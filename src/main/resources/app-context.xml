@@ -33,7 +33,7 @@
 		</property>
 	</bean>
 	
-	<!-- 	MA数据源  -->
+	<!-- 	数据源  -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="${jdbc.driver}" />
@@ -52,7 +52,6 @@
 	<!-- 扫描动态注册bean -->
 	<context:component-scan base-package="com.wyx.dao" />
 	<context:component-scan base-package="com.wyx.service" />
-	<context:component-scan base-package="com.wyx.web.support" />
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	

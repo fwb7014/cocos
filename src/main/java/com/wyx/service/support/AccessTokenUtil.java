@@ -1,4 +1,4 @@
-package com.wyx.web.support;
+package com.wyx.service.support;
 
 import com.wyx.web.util.HttpClientUtil;
 import com.wyx.web.util.WebProperties;

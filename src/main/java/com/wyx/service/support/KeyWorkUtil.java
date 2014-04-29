@@ -1,4 +1,4 @@
-package com.wyx.web.support;
+package com.wyx.service.support;
 
 import java.util.HashMap;
 import java.util.List;
