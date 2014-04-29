@@ -5,25 +5,24 @@ import java.util.Arrays;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.wyx.web.ReceiveController;
 import com.wyx.web.util.SecurityUtil;
 import com.wyx.web.util.WebProperties;
 
 @Service
 public class DoFirstService {
 
-	private static final Logger logger = Logger.getLogger(ReceiveController.class);
-	
-	public String doFirstService(String signature, String timestamp, String nonce,
-			String echostr) {
-		String[] str = {WebProperties.token,timestamp, nonce};
+	private static final Logger logger = Logger.getLogger(DoFirstService.class);
+
+	public String doFirstService(String signature, String timestamp,
+			String nonce, String echostr) {
+		String[] str = { WebProperties.token, timestamp, nonce };
 		Arrays.sort(str);
 		StringBuffer bf = new StringBuffer();
-		for(String temp:str){
+		for (String temp : str) {
 			bf.append(temp);
 		}
-		if (checkSignature(bf.toString(),signature)) {
-			System.out.println("通过返回"+echostr);
+		if (checkSignature(bf.toString(), signature)) {
+			System.out.println("通过返回" + echostr);
 			return echostr;
 		}
 		return "";
