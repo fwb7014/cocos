@@ -1,4 +1,4 @@
-package com.wyx.dto.receive;
+package com.wyx.model.receive;
 
 import org.springframework.util.StringUtils;
 

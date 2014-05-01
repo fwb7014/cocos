@@ -1,4 +1,4 @@
-package com.wyx.web;
+package com.wyx.web.msg;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.wyx.dto.receive.ReceiveMsg;
+import com.wyx.model.receive.ReceiveMsg;
+import com.wyx.model.send.SendMsg;
 import com.wyx.service.DoFirstService;
-import com.wyx.service.msg.IMsgSender;
-import com.wyx.service.msg.handler.AbsMsgHandler;
+import com.wyx.service.msg.IMsgHandler;
+import com.wyx.service.msg.MsgService;
 
 /**
  * 消息的处理类
@@ -36,7 +37,10 @@ public class MsgController {
 	private DoFirstService doFirst;
 
 	@Autowired
-	private List<IMsgSender> handlers = new ArrayList<IMsgSender>();
+	private List<IMsgHandler> handlers = new ArrayList<IMsgHandler>();
+	
+	@Autowired
+	private MsgService msgService;
 
 	/**
 	 * 消息的处理器
@@ -61,7 +65,10 @@ public class MsgController {
 	@ResponseBody
 	@RequestMapping("receive.do")
 	public void ktWinXin(HttpServletRequest request, Writer writer) {
-		// doFirstService(request);
+		/*
+		 * try { writer.write(doFirstService(request)); } catch (IOException e)
+		 * { logger.error("发生异常",e); }
+		 */
 
 		StringBuilder sb = new StringBuilder();
 
@@ -75,9 +82,9 @@ public class MsgController {
 
 			logger.info("socket消息 " + sb.toString());
 			ReceiveMsg receiveMsg = getReceiveMsg(sb.toString());
-			for (IMsgSender handle : handlers) {
+			for (IMsgHandler handle : handlers) {
 				if (handle.getMsgHandlerType().equals(receiveMsg.getMsgType())) {
-					writer.write(handle.getSendMsg(receiveMsg));
+					writer.write(handle.getSendMsgFromReceive(receiveMsg));
 					writer.flush();
 					writer.close();
 					return;
@@ -85,8 +92,21 @@ public class MsgController {
 			}
 			logger.info("没有次消息的处理能力,消息的类型为 " + receiveMsg.getMsgType());
 		} catch (Exception e) {
-			logger.error("没有次消息的处理能力,消息为 " + sb.toString(),e);
+			logger.error("没有次消息的处理能力,消息为 " + sb.toString(), e);
 		}
+	}
+
+	@ResponseBody
+	@RequestMapping("sendMsg.do")
+	public void sendMsg(HttpServletRequest request, String msgType) {
+		for (IMsgHandler handle : handlers) {
+			if (handle.getMsgHandlerType().equals(msgType)) {
+				SendMsg sendMsg = handle.getSendMsg(request);
+				msgService.sendMsg(handle, sendMsg);
+				return ;
+			}
+		}
+		logger.info("没有发送消息的处理能力,消息的类型为 " + msgType);
 	}
 
 	/**
