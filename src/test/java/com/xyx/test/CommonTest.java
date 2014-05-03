@@ -1,8 +1,10 @@
 package com.xyx.test;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.Test;
 
 import com.wyx.service.support.AccessTokenUtil;
@@ -21,6 +23,6 @@ public class CommonTest {
 		map.put("msgType", "text");
 		map.put("touser", "oGup_twhtJvepWihFtGZMAT4Spgw");
 		map.put("content", "你好范文博");
-		HttpClientUtil.sendPostRequest("http://localhost:8080/fanwb/sendMsg.do",map );
+		HttpClientUtil.sendPostRequestBlock("http://localhost:8080/fanwb/sendMsg.do","范文博" );
 	}
 }

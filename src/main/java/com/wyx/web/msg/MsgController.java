@@ -1,6 +1,7 @@
 package com.wyx.web.msg;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,7 +40,7 @@ public class MsgController {
 
 	@Autowired
 	private List<IMsgHandler> handlers = new ArrayList<IMsgHandler>();
-	
+
 	@Autowired
 	private MsgService msgService;
 
@@ -65,10 +67,20 @@ public class MsgController {
 	@ResponseBody
 	@RequestMapping("receive.do")
 	public void ktWinXin(HttpServletRequest request, Writer writer) {
-		/*
-		 * try { writer.write(doFirstService(request)); } catch (IOException e)
-		 * { logger.error("发生异常",e); }
-		 */
+
+		try {
+			String signature = request.getParameter("signature");
+			String timestamp = request.getParameter("timestamp");
+			String nonce = request.getParameter("nonce");
+			String echostr = request.getParameter("echostr");
+			if(!StringUtils.isEmpty(signature)&&!StringUtils.isEmpty(timestamp)
+					&&!StringUtils.isEmpty(nonce)&&!StringUtils.isEmpty(echostr)){
+				writer.write(doFirstService(signature,timestamp,nonce,echostr));
+				return ;
+			}
+		} catch (IOException e) {
+			logger.error("发生异常", e);
+		}
 
 		StringBuilder sb = new StringBuilder();
 
@@ -103,7 +115,7 @@ public class MsgController {
 			if (handle.getMsgHandlerType().equals(msgType)) {
 				SendMsg sendMsg = handle.getSendMsg(request);
 				msgService.sendMsg(handle, sendMsg);
-				return ;
+				return;
 			}
 		}
 		logger.info("没有发送消息的处理能力,消息的类型为 " + msgType);
@@ -126,11 +138,7 @@ public class MsgController {
 	 * @param request
 	 * @return
 	 */
-	public String doFirstService(HttpServletRequest request) {
-		String signature = request.getParameter("signature");
-		String timestamp = request.getParameter("timestamp");
-		String nonce = request.getParameter("nonce");
-		String echostr = request.getParameter("echostr");
+	public String doFirstService(String signature,String timestamp,String nonce,String echostr) {
 		logger.info("timestamp=" + timestamp + ",nonce=" + nonce + ",echostr="
 				+ echostr + ",signature=" + signature);
 		return doFirst.doFirstService(signature, timestamp, nonce, echostr);

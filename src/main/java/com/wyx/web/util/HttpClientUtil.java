@@ -2,7 +2,6 @@ package com.wyx.web.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -36,7 +36,7 @@ public class HttpClientUtil {
 		HttpPost httppost = new HttpPost(url);
 		
 		try {
-			httppost.setEntity(new StringEntity(content, Charset.forName("utf-8")));
+			httppost.setEntity(new StringEntity(content,ContentType.create("text/plain", "UTF-8")));
 			HttpResponse response;
 			response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
